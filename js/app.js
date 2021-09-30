@@ -59,14 +59,15 @@ function calculateBenefits(){
 
 // Obtain income tax according to the income tax withholding table issued by law
 function getRent(amount) {
+   // Taxed wages payable monthly (Through the General Directorate of Internal Taxes)
    const sections = {
       sect1: 472.60,
       sect2: 895.24,
       sect3: 2038.10
    };
-
    let val = sections;
    let rentResult;
+
    switch (true) {
       // I TRAMO
       case amount <= val.sect1:
@@ -99,4 +100,32 @@ function getRent(amount) {
    };
 
    return rentResult;
+}
+
+// Show Error message
+function showError(error){
+   // Hide results
+   document.getElementById('results').style.display = 'none';
+   // Hide loader
+   document.getElementById('loading').style.display = 'none';
+
+   // Create a div
+   const errorDiv = document.createElement('div');
+   // get elements
+   const card = document.querySelector('.card');
+   const heading = document.querySelector('.heading');
+
+   // Add class
+   errorDiv.className = 'alert alert-danger';
+   // Create textNode and appende to div
+   errorDiv.appendChild(document.createTextNode(error));
+   // Insert error above heading
+   card.insertBefore(errorDiv, heading);
+   // Clear error after 3 seconds
+   setTimeout(clearError, 3000);
+}
+
+// Clear error
+function clearError(){
+   document.querySelector('.alert').remove();
 }
