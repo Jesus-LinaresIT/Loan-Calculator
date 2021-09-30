@@ -40,6 +40,7 @@ function calculateBenefits(){
       const salaryBi = salaryMounth / 2;
 
       if(isFinite(salaryMounth)){
+         // Add UI vars to DOM
          discountAfp.value = afp.toFixed(2);
          restAfp.value = (salary - afp).toFixed(2);
          discountIsss.value = isss.toFixed(2);
@@ -54,4 +55,48 @@ function calculateBenefits(){
          document.getElementById('loading').style.display = 'none';
       }else{showError('Please check your numbers...');}
    }
+}
+
+// Obtain income tax according to the income tax withholding table issued by law
+function getRent(amount) {
+   const sections = {
+      sect1: 472.60,
+      sect2: 895.24,
+      sect3: 2038.10
+   };
+
+   let val = sections;
+   let rentResult;
+   switch (true) {
+      // I TRAMO
+      case amount <= val.sect1:
+         rentResult = 0.00;
+         break;
+      // II TRAMO
+      case amount >= val.sect1 && amount <= val.sect2:
+
+         const fixedFee1 = 17.67,
+            calc1 = amount - val.sect1+0.01,
+            porcentAply1 = calc1 * 0.1;
+         rentResult = porcentAply1 + fixedFee1;
+         break;
+      // III TRAMO
+      case amount > val.sect2 && amount <= val.sect3:
+
+         const fixedFee2 = 60.00,
+            calc2 = amount - val.sect2+0.01,
+            porcentAply2 = calc2 * 0.2;
+
+         rentResult = porcentAply2 + fixedFee2;
+         break;
+      // IV TRAMO
+      case amount > val.sect3:
+
+         const fixedFee3 = 288.57,
+            calc3 = amount - val.sect3+0.01,
+            porcentAply3 = calc3 * 0.3;
+         rentResult = porcentAply3 + fixedFee3;
+   };
+
+   return rentResult;
 }
