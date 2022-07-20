@@ -30,7 +30,7 @@ function calculateBenefits(){
       // As based on the law salary*7.25%
       const afp = salary * 0.0725,
       // As based on the law salary*3%($30 max)
-      isss = salary<1000?salary * 0.03:salary-30;
+      isss = salary<1000?salary * 0.03:30;
 
       const salaryDs = salary - afp - isss;
       // Calculation of income tax
